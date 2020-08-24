@@ -54,6 +54,10 @@
                         <a class="nav-link text-black font-weight-bold" href="#">Contact</a>
                     </li>
                 </ul>
+                <form class="form-inline" action="{% url 'home' %}">
+                    <input class="form-control mr-sm-2" name="search" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
             </div>
         </div>
     </nav>
@@ -82,19 +86,6 @@
         {% endif %}
     </div>
     {% endif %}
-
-
-    <div class="container">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">Next</a></li>
-            </ul>
-        </nav>
-    </div>
     
 
 

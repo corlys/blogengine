@@ -43,6 +43,9 @@ class Post(models.Model):
             self.slug = gen_slug(self.title)
         super().save(*args, **kwargs)
 
+    class Meta:
+        ordering = ["-created_on"]
+
 
 class Tag(models.Model):
     title = models.CharField(max_length=150)
@@ -59,6 +62,9 @@ class Tag(models.Model):
 
     def get_delete_url(self):
         return reverse("tags_delete", kwargs={"slug": self.slug})
+
+    class Meta:
+        ordering = ["title"]
 
 
 def gen_slug(s):

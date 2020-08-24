@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.views.generic import ListView, DetailView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator
+from django.db.models import Q
+
 
 from .models import Post, Tag
 
@@ -22,9 +25,34 @@ from .forms import PostForm, TagForm
 
 
 def post_list(request):
-    posts = Post.objects.filter(status=1).order_by("-created_on")
+
+    search_query = request.GET.get("search", "")
+    if search_query:
+        posts = Post.objects.filter(
+            Q(title__icontains=search_query) & Q(status=1)
+            | Q(content__icontains=search_query) & Q(status=1)
+        ).order_by("-created_on")
+    else:
+        posts = Post.objects.filter(status=1).order_by("-created_on")
+
+    paginator = Paginator(posts, 3)
+    pagenumber = request.GET.get("page", 1)
+    page = paginator.get_page(pagenumber)
+
+    if page.has_next():
+        next_url = f"?page={page.next_page_number()}"
+    else:
+        next_url = ""
+
+    if page.has_previous():
+        previous_url = f"?page={page.previous_page_number()}"
+    else:
+        previous_url = ""
+
     context = {
-        "posts": posts,
+        "page": page,
+        "next_page_url": next_url,
+        "prev_page_url": previous_url,
     }
     return render(request, "blog/post_list.html", context)
 
