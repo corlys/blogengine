@@ -1,0 +1,17 @@
+h1, h2, h3, h4, h5 {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.admin-panel{
+    border: 1px solid #999;
+    border-radius: 2px;
+    position: fixed;
+    right: 50px;
+    bottom: 30px;
+    padding: 15px;
+}
+
+.admin-panel a {
+    display: block;
+    margin: 5px 0;
+}

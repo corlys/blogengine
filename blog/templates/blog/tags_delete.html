@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 mt-4 mt-5 card">
+            <div class="card-body">
+                <form action="{{tag.get_delete_url}}" method="post">
+                    {% csrf_token %}
+                    <h3>Are you sure you want to delete {{tag.title}} tag ?</h3>
+                    <a class="btn btn-info float-right ml-3" href="{{tag.get_absolute_url}}">Cancel</a>
+                    <button type='submit' name='button' class="btn btn-danger float-right ml-3">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
