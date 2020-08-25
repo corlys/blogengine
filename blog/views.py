@@ -9,7 +9,7 @@ from .models import Post, Tag
 
 from .utils import DetailObjectMixin, UpdateObjectMixin, DeleteObjectMixin
 
-from .forms import PostForm, TagForm
+from .forms import PostForm, TagForm, CommentForm
 
 # Create your views here.
 
@@ -126,6 +126,19 @@ class PostCreate(LoginRequiredMixin, View):
             "form": bound_form,
         }
         return render(request, "blog/post_create.html", context)
+
+
+class CommentCreate(LoginRequiredMixin, View):
+    def post(self, request, slug):
+        post = get_object_or_404(Post, slug__iexact=slug)
+        bound_form = CommentForm(request.POST)
+        if bound_form.is_valid():
+            new_comment = bound_form.save(commit=False)
+            new_comment.commenter = request.user
+            new_comment.post = post
+            new_comment.save()
+            return redirect(post)
+        return redirect(post)
 
 
 class TagUpdate(LoginRequiredMixin, UpdateObjectMixin, View):

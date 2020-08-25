@@ -10,6 +10,7 @@ urlpatterns = [
     path("post/<str:slug>/update", PostUpdate.as_view(), name="post_update"),
     path("post/<str:slug>/delete", PostDelete.as_view(), name="post_delete"),
     path("post/<str:slug>", PostDetail.as_view(), name="post_detail"),
+    path("comment/<str:slug>/create", CommentCreate.as_view(), name="comment_create"),
     path("tags/", tags_list, name="tags_list"),
     path("tags/create", TagCreate.as_view(), name="tags_create"),
     path("tags/<str:slug>", TagDetail.as_view(), name="tags_detail"),

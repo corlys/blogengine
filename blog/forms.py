@@ -51,3 +51,12 @@ class PostForm(forms.ModelForm):
         if new_slug == "create":
             raise ValidationError("Slug may not be created")
         return new_slug
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ["content"]
+        widgets = {
+            "content": forms.Textarea(attrs={"class": "form-control"}),
+        }

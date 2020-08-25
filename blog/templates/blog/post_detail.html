@@ -11,7 +11,40 @@
         <p class="card-text ">{{ post.content | safe }}</p>
       </div>
     </div>
-    {% block sidebar %} {% include 'sidebar.html' %} {% endblock sidebar %}
+    <div class="col-md-8 card">
+      <div class="card-body">
+      <form action="{% url 'comment_create' slug=post.slug %}" method='POST'>
+        {% csrf_token %}
+        {% for fields in form %}
+        
+        <div class="form-group">
+        
+          {% if fields.errors %}
+          
+          <div class="alert alert-danger">{{fields.errors}}</div>
+          
+          {% endif %}
+          {{fields.label}}
+          {{fields}}
+        </div>
+        
+        {% endfor %}
+
+        <button type="submit" class="btn btn-primary float-right">Submit</button>
+      </form>
+      </div>
+    </div>
+    <div class="col-md-8 card mb-4 mt-3 left top">
+      <div class="card-body">
+      {% for comment in comments %}
+        <div class="comment-box">
+        <p class=" text-muted">{{ comment.commenter }} | {{ comment.created_on }}</p>
+        <p class="card-text">{{comment.content}}</p>
+        </div>
+      {% endfor %}
+      </div>
+    </div>
+    {% comment %} {% block sidebar %} {% include 'sidebar.html' %} {% endblock sidebar %} {% endcomment %}
   </div>
 </div>
 

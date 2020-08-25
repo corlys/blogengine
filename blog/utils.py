@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 from .models import *
 
+from .forms import CommentForm
+
 
 class DetailObjectMixin:
     model = None
@@ -12,6 +14,12 @@ class DetailObjectMixin:
         obj = get_object_or_404(self.model, slug__iexact=slug)
 
         context = {self.model.__name__.lower(): obj, "admin_object": obj}
+
+        if self.model.__name__.lower() == "post":
+            comments = Comment.objects.filter(post=obj)
+            bound_form = CommentForm()
+            context["comments"] = comments
+            context["form"] = bound_form
 
         return render(request, self.template, context)
 

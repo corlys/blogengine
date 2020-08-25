@@ -67,6 +67,23 @@ class Tag(models.Model):
         ordering = ["title"]
 
 
+class Comment(models.Model):
+    post = models.ForeignKey(Post, related_name="comments", on_delete=models.CASCADE)
+    commenter = models.ForeignKey(
+        User, related_name="commenter", on_delete=models.CASCADE
+    )
+    content = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+    active = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ["created_on"]
+
+    def __str__(self):
+        return "Comment at {} by {}".format(self.post.title, self.commenter)
+
+
 def gen_slug(s):
     slug = slugify(s, allow_unicode=True)
     return slug + f"-{int(time())}"
